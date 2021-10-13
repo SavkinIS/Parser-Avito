@@ -1,3 +1,4 @@
 {
-  "ConnectionString": "Server = DESKTOP-V7VHCBU\\SQLEXPRESS;Database=ProductsTest;Trusted_Connection=True;"
+  "ConnectionString": "Server = DESKTOP-V7VHCBU\\SQLEXPRESS;Database=ProductsTest;Trusted_Connection=True;",
+  "Url": "https://localhost:44354/collectionhub"
 }

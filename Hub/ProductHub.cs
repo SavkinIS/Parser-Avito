@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using Parser.DataFolder;
 using Parser.Model;
 
@@ -13,10 +15,12 @@ namespace Parser.Hub
     {
         Data data = new Data();
         HubConnection hubConnection;
+        string url = "";
         public ProductHub()
         {
+            url = GetUrl();
             hubConnection = new HubConnectionBuilder()
-           .WithUrl("https://localhost:44354/collectionhub")
+           .WithUrl(url)
            .Build();
 
             hubConnection.On<List<Product>>("ReceiveMessage", messageCol =>
@@ -47,6 +51,14 @@ namespace Parser.Hub
               var x = Task.Run(async () => await hubConnection.SendAsync("SendMessage", product));
             }
             
+        }
+
+        string GetUrl()
+        {
+            string path = Path.GetFullPath(@"..\..\..\") + "/ConnectionString.json";
+            string connectionstring = File.ReadAllText(path);
+            Root root = JsonConvert.DeserializeObject<Root>(connectionstring);
+            return root.Url;
         }
       
     }
